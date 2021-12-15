@@ -1,7 +1,7 @@
 const chalk = require("chalk");
-const { demandOption } = require("yargs");
+// const { demandOption, require } = require("yargs");
 const yargs = require("yargs");
-const getNotes = require("./notes.js");
+const notes = require("./notes.js");
 
 // Create add command
 yargs.command({
@@ -20,8 +20,7 @@ yargs.command({
     },
   },
   handler: function (argv) {
-    console.log("Title: ", argv.title);
-    console.log("Body: ", argv.body);
+    notes.addNote(argv.title, argv.body);
   },
 });
 
@@ -53,3 +52,11 @@ yargs.command({
 });
 
 yargs.parse();
+
+// const fs = require('fs')
+
+// const dataBuffer = fs.readFileSync('1-json.json')
+// const dataJSON = dataBuffer.toString()
+// const data = JSON.parse(dataJSON)
+// data.name = Naman
+// data.age = 20
