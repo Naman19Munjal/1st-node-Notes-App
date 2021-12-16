@@ -1,5 +1,5 @@
 const chalk = require("chalk");
-// const { demandOption, require } = require("yargs");
+const { demandOption, string } = require("yargs");
 const yargs = require("yargs");
 const notes = require("./notes.js");
 
@@ -19,7 +19,7 @@ yargs.command({
       type: "string",
     },
   },
-  handler: function (argv) {
+  handler(argv) {
     notes.addNote(argv.title, argv.body);
   },
 });
@@ -28,17 +28,24 @@ yargs.command({
 yargs.command({
   command: "remove",
   describe: "Remove a note",
-  handler: function () {
-    console.log("Removing the note");
+  builder: {
+    title: {
+      describe: "Note Title",
+      demandOption: true,
+      type: String,
+    },
+  },
+  handler(argv) {
+    notes.removeNote(argv.title);
   },
 });
 
 // Create list command
 yargs.command({
   command: "list",
-  describe: "   List of notes",
-  handler: function () {
-    console.log("Listing out all notes");
+  describe: "List of notes",
+  handler() {
+    notes.listNotes();
   },
 });
 
@@ -46,17 +53,16 @@ yargs.command({
 yargs.command({
   command: "read",
   describe: "Read a note",
-  handler: function () {
-    console.log("Reading a note");
+  builder: {
+    title: {
+      describe: "note title",
+      demandOption: true,
+      type: string,
+    },
+  },
+  handler(argv) {
+    notes.readNotes(argv.title);
   },
 });
 
 yargs.parse();
-
-// const fs = require('fs')
-
-// const dataBuffer = fs.readFileSync('1-json.json')
-// const dataJSON = dataBuffer.toString()
-// const data = JSON.parse(dataJSON)
-// data.name = Naman
-// data.age = 20
